@@ -1,19 +1,15 @@
-function getBotResponse(input) {
-    //rock paper scissors
-    if (input == "rock") {
-        return "paper";
-    } else if (input == "paper") {
-        return "scissors";
-    } else if (input == "scissors") {
-        return "rock";
-    }
+async function getBotResponse(userText) {
+  var requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application.json' },
+    body: JSON.stringify(userText),
+  };
 
-    // Simple responses
-    if (input == "hello") {
-        return "Hello there!";
-    } else if (input == "goodbye") {
-        return "Talk to you later!";
-    } else {
-        return "Try asking something else!";
-    }
+  //use API Gateway to invoke lambda function
+  const res = await fetch(
+    'https://u4aq6om2ki.execute-api.us-east-1.amazonaws.com/dev',
+    requestOptions
+  ).then((response) => JSON.parse(response));
+
+  return res;
 }
