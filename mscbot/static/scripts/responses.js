@@ -7,9 +7,9 @@ async function getBotResponse(userText) {
 
   //use API Gateway to invoke lambda function
   const res = await fetch(
-    'https://u4aq6om2ki.execute-api.us-east-1.amazonaws.com/dev',
+    'https://yhfpxk773f.execute-api.us-east-1.amazonaws.com/dev',
     requestOptions
   ).then((response) => JSON.parse(response));
-
+  console.log(res);
   return res;
 }
