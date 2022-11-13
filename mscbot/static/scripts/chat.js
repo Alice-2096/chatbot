@@ -47,20 +47,21 @@ function firstBotMessage() {
 firstBotMessage();
 
 // Retrieves the response
-function getHardResponse(userText) {
-  let botResponse = getBotResponse(userText);
+async function getHardResponse(userText) {
+  let botResponse = await getBotResponse(userText);
+  console.log(botResponse);
   let botHtml = '<p class="botText"><span>' + botResponse + '</span></p>';
   $('#chatbox').append(botHtml);
 
   document.getElementById('chat-bar-bottom').scrollIntoView(true);
 }
 
-//Gets the text text from the input box and processes it
+//Gets the empty text from the input box and processes it
 function getResponse() {
   let userText = $('#textInput').val();
 
   if (userText == '') {
-    userText = 'I love Code Palace!';
+    userText = '(no text entered)';
   }
 
   let userHtml = '<p class="userText"><span>' + userText + '</span></p>';
