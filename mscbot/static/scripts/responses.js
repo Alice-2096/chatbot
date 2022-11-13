@@ -1,7 +1,6 @@
 async function getBotResponse(userText) {
   var requestOptions = {
     method: 'POST',
-    headers: { 'Content-Type': 'application.json' },
     body: JSON.stringify(userText),
   };
 
