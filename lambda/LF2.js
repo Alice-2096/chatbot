@@ -145,12 +145,12 @@ exports.handler = async (event) => {
           state: 'Fulfilled',
         },
       },
-      messages: [
-        {
-          contentType: 'PlainText',
-          content: 'Thank you! You will receive hotel suggestion shortly',
-        },
-      ],
+      //   messages: [
+      //     {
+      //       contentType: 'PlainText',
+      //       content: 'Thank you! You will receive hotel suggestion shortly',
+      //     },
+      //   ],
     };
     return response;
   }

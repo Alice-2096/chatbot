@@ -23,16 +23,22 @@ Then, set up a lambda function to pass user message to Lex and to receive the pr
 
 [x] Through conversation, collect the following pieces of information from the user: 
 * Location
-* Checkin data
+* Checkin date
 * pet-friendly
 * number of nights to stay
 * phone number
-[ ] fulfillment confirmation: Confirm to the user that you received their request and that you will notify them over SMS once you have the list of hotel suggestions. 
+[x] fulfillment confirmation: Confirm to the user that you received their request and that you will notify them over SMS once you have the list of hotel suggestions. 
 
-[ ] Then push the information collected from the user to an SQS queue (Q1) using a lambda function (Lambda-2). 
+[x] Then push the information collected from the user to an SQS queue (Q1) using a lambda function (Lambda-2). 
 
-[ ] Now, integrate Lex chatbot into Lambda-1: the function will extract user message from the request, pass it to Lex, send back response from Lex as response. 
+[ ] Now, integrate Lex chatbot into Lambda-1: instantiate a 'lex-runtime' client (use a node.js SDK) and establish connection with the bot we just created. 
 
 
 ### step 3 
 Use the API to collect 3,000+ hotels in Manhattan and New Jersey. Create a table in DynamoDB to store the collected data. 
+
+### step 4 
+Elastic Search
+
+### step 5
+set up a queue-worker Lambda function to generate recommendation of hotel bookings using ElasticSearch and DynamoDB. Send the recommendation through text message using SNS. 
