@@ -6,27 +6,33 @@ I will be building an AWS Chatbot using S3, API Gateway, Lambda, Lex, DynamoDB, 
 
 ## Workflow 
 ### step 1
-Building chatbot frontend and host it in an AWS S3 bucket. Then set up chat API using AWS API Gateway and connect it with a Lambda function ('chat') to receive and response to chat messages from the user. 
+Building chatbot frontend and host it in an AWS S3 bucket. Then set up chat API using AWS API Gateway and connect it with a Lambda function (Lambda-1) to receive and response to chat messages from the user. 
 - [x] enable CORS on all API methods including the preflight OPTIONS methods. 
 - [x] import the Javascript SDK to the frontend directory to invoke AWS APIs. 
 
 ### step 2
-Building chatbot using AWS Lex. Implement at least the following three intents: 
+Building chatbot using [AWS Lex](https://docs.aws.amazon.com/lex/latest/dg/what-is.html). 
+
+> Amazon Lex is an AWS service for building conversational interfaces for applications using voice and text. With Amazon Lex, the same conversational engine that powers Amazon Alexa is now available to any developer, enabling you to build sophisticated, natural language chatbots into your new and existing applications.
+
+[x] Created the following three intents: 
 1. GreetingIntent
 2. ThankYouIntent
-3. BookSuggestionsIntent
+3. HotelSuggestionsIntent
 Then, set up a lambda function to pass user message to Lex and to receive the processed response from Lex.  
 
-Through conversation, collect the following pieces of information from the user: 
-* Genre
-* Publication date
-* Language 
-* Award Winner
-Then push the information collected from the user (genre, language, etc.) to an SQS queue (Q1). 
+[x] Through conversation, collect the following pieces of information from the user: 
+* Location
+* Checkin data
+* pet-friendly
+* number of nights to stay
+* phone number
+[ ] fulfillment confirmation: Confirm to the user that you received their request and that you will notify them over SMS once you have the list of hotel suggestions. 
 
-Confirm to the user that you received their request and that you will notify them over SMS once you have the list of books suggestions. 
+[ ] Then push the information collected from the user to an SQS queue (Q1) using a lambda function (Lambda-2). 
 
-Now, integrate Lex into the chat API: extract user message from the request, pass it to Lex, send back response from Lex as response. 
+[ ] Now, integrate Lex chatbot into Lambda-1: the function will extract user message from the request, pass it to Lex, send back response from Lex as response. 
+
 
 ### step 3 
-Use the NYT-Book API to collect 3,000+ distinct books from all time period. Create a table in DynamoDB to store the collected data. 
+Use the API to collect 3,000+ hotels in Manhattan and New Jersey. Create a table in DynamoDB to store the collected data. 
