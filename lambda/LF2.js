@@ -1,5 +1,7 @@
 //Lambda function interfaced with Lex and SQS
 
+import { SQSClient, SetQueueAttributesCommand } from '@aws-sdk/client-sqs';
+
 //helper function to check which slot is unfilled.
 function validate(slots) {
   if (slots['location']) {
@@ -10,31 +12,31 @@ function validate(slots) {
   }
   if (slots['date']) {
     return {
-      isValid: False,
+      isValid: 'False',
       violatedSlot: 'date',
     };
   }
   if (slots['nights']) {
     return {
-      isValid: False,
+      isValid: 'False',
       violatedSlot: 'nights',
     };
   }
   if (slots['beds']) {
     return {
-      isValid: False,
+      isValid: 'False',
       violatedSlot: 'beds',
     };
   }
   if (slots['pet']) {
     return {
-      isValid: False,
+      isValid: 'False',
       violatedSlot: 'pet',
     };
   }
   if (slots['phone']) {
     return {
-      isValid: False,
+      isValid: 'False',
       violatedSlot: 'phone',
     };
   }
@@ -46,9 +48,6 @@ exports.handler = async (event) => {
   const slots = event['sessionState']['intent']['slots'];
   const intent = event['sessionState']['intent']['name'];
   const validation_result = validate(slots);
-  console.log(event['invocationSource']);
-  console.log(slots);
-  console.log(intent);
 
   //The dialogAction field directs Amazon Lex to the next course of action, and
   // describes what to expect from the user after Amazon Lex returns a response to the client.
@@ -69,9 +68,7 @@ exports.handler = async (event) => {
         },
       };
       return response;
-    }
-    //user has finished entering all the required info
-    else {
+    } else {
       const response = {
         sessionState: {
           dialogAction: {
@@ -89,6 +86,52 @@ exports.handler = async (event) => {
 
   if (event['invocationSource'] == 'FulfillmentCodeHook') {
     //TODO: push user's input data to SQS
+    //establish connectin with sqs
+    const client = new SQSClient({ region: 'us-east-1' });
+    const params = {
+      //   MessageAttributes: {
+      //     location: {
+      //       DataType: 'String',
+      //       StringValue: slots['location'],
+      //     },
+      //     date: {
+      //       DataType: 'String',
+      //       StringValue: slots['date'],
+      //     },
+      //     nights: {
+      //       DataType: 'Number',
+      //       StringValue: slots['nights'],
+      //     },
+      //     beds: {
+      //       DataType: 'Number',
+      //       StringValue: slots['beds'],
+      //     },
+      //     pet: {
+      //       DataType: 'String',
+      //       StringValue: slots['pet'],
+      //     },
+      //     phone: {
+      //       DataType: 'Number',
+      //       StringValue: slots['phone'],
+      //     },
+      //   },
+      MessageBody: {
+        location: slots['location'],
+        date: slots['date'],
+        nights: slots['nights'],
+        beds: slots['beds'],
+        pet: slots['pet'],
+        phone: slots['phone'],
+      },
+
+      QueueUrl:
+        'https://sqs.us-east-1.amazonaws.com/442362234575/hotelQueue.fifo',
+    };
+    const command = new SetQueueAttributesCommand(params);
+
+    client
+      .send(command)
+      .then((data) => console.log('success, message sent to sqs client'));
 
     //The next action is to close the dialog
     const response = {
@@ -102,6 +145,12 @@ exports.handler = async (event) => {
           state: 'Fulfilled',
         },
       },
+      messages: [
+        {
+          contentType: 'PlainText',
+          content: 'Thank you! You will receive hotel suggestion shortly',
+        },
+      ],
     };
     return response;
   }
