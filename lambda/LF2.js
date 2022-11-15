@@ -48,6 +48,7 @@ exports.handler = async (event) => {
   const intent = event['sessionState']['intent']['name'];
   const validation_result = validate(slots);
   const invocationSource = event['invocationSource'];
+  console.log(invocationSource);
 
   //The dialogAction field directs Amazon Lex to the next course of action, and
   // describes what to expect from the user after Amazon Lex returns a response to the client.
@@ -55,6 +56,7 @@ exports.handler = async (event) => {
   //elicit and validate user's data input
   if (invocationSource == 'DialogCodeHook') {
     if (!validation_result['isValid']) {
+      console.log('we are now in DialogCodeHook mode');
       const response = {
         sessionState: {
           dialogAction: {
@@ -85,28 +87,29 @@ exports.handler = async (event) => {
   }
 
   if (invocationSource == 'FulfillmentCodeHook') {
+    console.log('hello, now we are in the fullfillmentCodeHook');
     //push message to SQS
     AWS.config.update({ region: 'us-east-1' });
     const client = new AWS.SQS({ apiVersion: '2012-11-05' });
 
     const params = {
       MessageBody: JSON.stringify({
-        location: slots['location'],
-        date: slots['date'],
-        nights: slots['nights'],
-        beds: slots['beds'],
-        pet: slots['pet'],
-        phone: slots['phone'],
+        location: slots['location']['value']['resolvedValues'][0],
+        date: slots['date']['value']['resolvedValues'][0],
+        nights: slots['nights']['value']['resolvedValues'][0],
+        beds: slots['beds']['value']['resolvedValues'][0],
+        pet: slots['pet']['value']['resolvedValues'][0],
+        phone: slots['phone']['value']['resolvedValues'][0],
       }),
       QueueUrl: 'https://sqs.us-east-1.amazonaws.com/442362234575/myQ',
     };
 
     await client
       .sendMessage(params)
-      .promise() //return a promise to continue the execution flow
+      .promise()
       .catch((err) => console.log(err));
 
-    //The next action is to return confirmation message to the user and then close the dialog
+    //The next action is to close the dialog
     const response = {
       sessionState: {
         dialogAction: {
