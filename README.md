@@ -36,6 +36,7 @@ Then, set up a lambda function to pass user message to Lex and to receive the pr
 - [x] create another lambda function ('chatbot-backend'). in the fullfillmentCodeHook section, push the information collected from the user to an SQS queue ('myQ'). 
 
 - [ ] Website integration: integrate Lex chatbot into Lambda function 'chat'. Instantiate a 'lex-runtime' client with node.js SDK to establish connection with the bot we just created. 
+Note: need to fix problem importing node modules in Lambda....
 
 ### step 3 
 Use the API to collect 3,000+ hotels in Manhattan and New Jersey. Create a table in DynamoDB to store the collected data. 

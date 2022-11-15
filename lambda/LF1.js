@@ -2,10 +2,8 @@
 var AWS = require('aws-sdk');
 const {
   LexRuntimeServiceClient,
-} = require('@aws-sdk/client-lex-runtime-service-node/LexRuntimeServiceClient');
-const {
   PostContentCommand,
-} = require('@aws-sdk/client-lex-runtime-service-node/commands/PostContentCommand');
+} = require('@aws-sdk/client-lex-runtime-service');
 
 exports.handler = async function (event, context) {
   //TODO: parse request body, i.e., get chatbot massage from the user
@@ -16,13 +14,13 @@ exports.handler = async function (event, context) {
   const lexRuntimeService = new LexRuntimeServiceClient({
     region: 'us-east-1',
   });
-  const lexUserId = 'hotel-chatbot' + Date.now();
+
   const params = {
     botAlias: 'TestBotAlias',
     botName: 'HotelChatbot',
     contentType: 'text/plain',
     inputStream: body,
-    userId: lexUserId,
+    userId: 'hotelchatbot-23456', //hardcode it for now
   };
 
   //Sends user input to Lex. In response, Lex returns the next message to convey to the user.
@@ -39,6 +37,11 @@ exports.handler = async function (event, context) {
   //return Lex's reply to the frontend to be displayed to the user
   const response = {
     statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+    },
     body: reply,
   };
   return response;
