@@ -45,4 +45,9 @@ Use the API to collect 3,000+ hotels in Manhattan and New Jersey. Create a table
 Elastic Search
 
 ### step 5
-set up a queue-worker Lambda function to generate recommendation of hotel bookings using ElasticSearch and DynamoDB. Send the recommendation through text message using SNS. 
+set up a queue-worker Lambda function to pull messages from the SQS queue. Generate recommendation of hotel bookings using ElasticSearch and DynamoDB. Send the recommendation through text message using SNS. 
+- [x] Lambda queue worker skeleton added
+- [x] Set up a scheduler on AWS EventBridge(CloudWatch). Lambda queue worker function will be invoked every one minute. Visibility is tentatively set to 0 for testing purposes. 
+- [ ] Set up AWS SNS
+- [ ] Build API logic 
+- [ ] Set up SNS 
