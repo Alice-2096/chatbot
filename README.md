@@ -4,7 +4,7 @@ serverless, AWS-service-driven Chatbot web application
 ## Overview
 I will be building an AWS Chatbot using S3, API Gateway, Lambda, Lex, DynamoDB, Elastic Search, and some open source API. 
 
-### AWS SDK for JavaScript 
+#### AWS SDK for JavaScript  
 [Developer Guide for SDK v2](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/sqs-examples-send-receive-messages.html)
 
 ## Workflow 
@@ -18,23 +18,24 @@ Building chatbot using [AWS Lex](https://docs.aws.amazon.com/lex/latest/dg/what-
 
 > Amazon Lex is an AWS service for building conversational interfaces for applications using voice and text. With Amazon Lex, the same conversational engine that powers Amazon Alexa is now available to any developer, enabling you to build sophisticated, natural language chatbots into your new and existing applications.
 
-[x] Created the following three intents: 
+- [x] Created the following three intents: 
 1. GreetingIntent
 2. ThankYouIntent
 3. HotelSuggestionsIntent
 Then, set up a lambda function to pass user message to Lex and to receive the processed response from Lex.  
 
-[x] Through conversation, collect the following pieces of information from the user: 
+- [x] Through conversation, collect the following pieces of information from the user: 
 * Location
 * Checkin date
 * pet-friendly
 * number of nights to stay
+* number of beds
 * phone number
-[x] fulfillment confirmation: Confirm to the user that you received their request and that you will notify them over SMS once you have the list of hotel suggestions. 
+- [x] fulfillment confirmation: Confirm to the user that you received their request and that you will notify them over SMS once you have the list of hotel suggestions. 
 
-[x] Then push the information collected from the user to an SQS queue (Q1) using a lambda function ('chatbot-backend'). 
+- [x] create another lambda function ('chatbot-backend'). in the fullfillmentCodeHook section, push the information collected from the user to an SQS queue ('myQ'). 
 
-[ ] Now, integrate Lex chatbot into Lambda function 'chat': instantiate a 'lex-runtime' client (use a node.js SDK) and establish connection with the bot we just created. 
+- [ ] Website integration: integrate Lex chatbot into Lambda function 'chat'. Instantiate a 'lex-runtime' client with node.js SDK to establish connection with the bot we just created. 
 
 ### step 3 
 Use the API to collect 3,000+ hotels in Manhattan and New Jersey. Create a table in DynamoDB to store the collected data. 
