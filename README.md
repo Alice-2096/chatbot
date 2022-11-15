@@ -50,4 +50,3 @@ set up a queue-worker Lambda function to pull messages from the SQS queue. Gener
 - [x] Set up a scheduler on AWS EventBridge(CloudWatch). Lambda queue worker function will be invoked every one minute. Visibility is tentatively set to 0 for testing purposes. 
 - [ ] Set up AWS SNS
 - [ ] Build API logic 
-- [ ] Set up SNS 
