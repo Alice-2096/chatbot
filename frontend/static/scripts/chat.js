@@ -48,7 +48,7 @@ firstBotMessage();
 
 // Retrieves the response
 async function getHardResponse(userText) {
-  let botResponse = await getBotResponse(userText);
+  let botResponse = getBotResponse(userText);
   console.log(botResponse);
   let botHtml = '<p class="botText"><span>' + botResponse + '</span></p>';
   $('#chatbox').append(botHtml);
