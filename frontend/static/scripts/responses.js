@@ -4,15 +4,15 @@ async function getBotResponse(userText) {
     body: JSON.stringify(userText),
   };
 
-  var res;
   //use API Gateway to invoke lambda function
-  await fetch(
+  const res = await fetch(
     'https://yhfpxk773f.execute-api.us-east-1.amazonaws.com/dev//chatbot',
     requestOptions
   )
-    .then((response) => response.json())
-    .then((data) => {
-      res = data.body;
-    });
+    .then((response) => {
+      response.json();
+    })
+    .catch((error) => console.log(error));
+
   return res;
 }

@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@aws-sdk/client-lex-runtime-service": "^3.210.0",
+    "@aws-sdk/client-lex-runtime-v2": "^3.213.0",
     "@aws-sdk/client-sqs": "^3.209.0"
   }
 }
